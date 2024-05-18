@@ -42,13 +42,14 @@ class Calculator(ctk.CTk):
                 col_val = 0
                 row_val += 1
 
-        self.clear = ctk.CTkButton(master=self, text="clear", command=self.all_clear, width=self.bwidth1)
+        self.clear = ctk.CTkButton(master=self, text="Clear", command=self.all_clear, width=self.bwidth1)
         self.clear.grid(row=row_val, column=0, columnspan=4, pady=5, padx=10)
 
     def g_num(self, n):
-        new_n = self.values.get() + n
+        current_text = self.values.get()
+        new_text = current_text + n
         self.values.delete(0, ctk.END)
-        self.values.insert(0, new_n)
+        self.values.insert(0, new_text)
 
     def all_clear(self):
         self.values.delete(0, ctk.END)
@@ -62,17 +63,21 @@ class Calculator(ctk.CTk):
         s_num = self.values.get()
         if s_num:
             s_num = float(s_num)
+            result = None
             if self.op == "+":
-                self.values.insert(0, self.f_num + s_num)
+                result = self.f_num + s_num
             elif self.op == "-":
-                self.values.insert(0, self.f_num - s_num)
+                result = self.f_num - s_num
             elif self.op == "*":
-                self.values.insert(0, self.f_num * s_num)
+                result = self.f_num * s_num
             elif self.op == "/":
+
                 if s_num != 0:
-                    self.values.insert(0, self.f_num / s_num)
+                    result = self.f_num / s_num
                 else:
-                    self.values.insert(0, "Error")
+                    result = "Error"
+            self.values.delete(0, ctk.END)
+            self.values.insert(0, result)
         else:
             self.values.insert(0, "Error")
 
